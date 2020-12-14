@@ -27,6 +27,7 @@ const displayPicture = function (data) {
         </div>`;
 
             pictureDiv.insertAdjacentHTML('beforeend', html);
+            // si l'url est une vidéo
         } else if (date.media_type === 'video') {
             const html = `
         <div class="card">
@@ -59,6 +60,7 @@ const displayChosenPicture = function (data) {
         </div>
         </div>`;
         pictureDiv.insertAdjacentHTML('beforeend', html);
+        // si l'url est une vidéo
     } else if (data.media_type === 'video') {
         const html = `
         <div class="card">

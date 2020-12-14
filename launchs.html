@@ -28,29 +28,13 @@
             <h1>Sky Fetchers</h1>
         </section>
 
-        <section class="choosePicture">
-            <p>
-                Retrouvez ici une image aléatoire de la base de données de
-                l'APOD (Astronomy Picture Of the Day, microservice de la NASA).
-                Vous pouvez également selectionner une date pour afficher
-                l'image correspondante, et remonter jusqu'au jour de sa création
-                le 16 juin 1995.
-            </p>
-            <div class="dateInput">
-                <label for="start">Aller à ce jour:</label>
-                <input
-                    type="date"
-                    id="start"
-                    name="date-start"
-                    value="1995-06-16"
-                    min="1995-06-16"
-                    max=""
-                />
-            </div>
-
-            <div class="pictureDiv"></div>
+        <section class="launchsSection">
+            <article class="launchs"></article>
+            <aside class="history">
+                <h2>A brief history of SpaceX main events</h2>
+            </aside>
         </section>
 
-        <script src="javascript/choosePicture.js"></script>
+        <script src="javascript/launchs.js"></script>
     </body>
 </html>
