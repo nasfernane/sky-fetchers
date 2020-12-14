@@ -1,0 +1,16 @@
+.header {
+    height: 100vh;
+    background: url(../img/skyFetchers.jpg) center;
+    background-size: cover;
+    background-position: top;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        color: white;
+        font-size: 12rem;
+        font-style: italic;
+        font-weight: 800;
+    }
+}

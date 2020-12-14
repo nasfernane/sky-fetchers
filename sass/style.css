@@ -1,0 +1,41 @@
+/* stockage des couleurs */
+/* css global reset */
+@import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,700;1,400&display=swap");
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  box-sizing: border-box;
+  font-weight: 400; }
+
+body {
+  font-family: 'Quantico', sans-serif; }
+
+.header {
+  height: 100vh;
+  background: url(../img/skyFetchers.jpg) center;
+  background-size: cover;
+  background-position: top;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .header h1 {
+    color: white;
+    font-size: 12rem;
+    font-style: italic;
+    font-weight: 800; }
+
+.lastPictures {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid black; }
+  .lastPictures .card {
+    border: 1px solid red; }
