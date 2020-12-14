@@ -1,4 +1,5 @@
 // script qui affiche les images des trois derniers jours du site APOD (Astronomy Picture Of the Day)
+const today = new Date();
 
 // récupère la div pour implémenter la card
 const pictureDiv = document.querySelector('.pictureDiv');
@@ -103,8 +104,13 @@ const targetPicture = function (date) {
 // charge automatiquement les photos des trois derniers jours au chargement de la fenêtre
 window.addEventListener('load', function () {
     randomPicture();
+    // on change le max de l'input date en fonction de la date du jour
+    input.max = `${today.getFullYear()}-${
+        today.getMonth() + 1
+    }-${today.getDate()}`;
 });
 
+// on lance le changement d'image quand l'utilisateur entre une nouvelle date
 input.addEventListener('input', function () {
     targetPicture(input.value);
 });
