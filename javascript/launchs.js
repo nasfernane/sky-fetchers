@@ -2,8 +2,8 @@ const historyDiv = document.querySelector('.history');
 const launchsDiv = document.querySelector('.launchs');
 
 // fonction pour fetch l'emplacement d'une station de lancement selon l'id entré en paramètre
-const fetchLaunchPad = function (pad) {
-    const launchPad = fetch(`https://api.spacexdata.com/v4/launchpads/${pad}`)
+const fetchLaunchPad = function (padID) {
+    const launchPad = fetch(`https://api.spacexdata.com/v4/launchpads/${padID}`)
         .then(function (response) {
             return response.json();
         })
@@ -33,16 +33,17 @@ const fetchUpcomingLaunchs = function (date) {
 };
 
 const displayLaunchs = function (data) {
+    // pour chaque vol
     for (const launch of data) {
-        let launchPad;
-        const launchPadPromise = fetchLaunchPad(launch.launchpad).then(
-            function (value) {
-                return value;
-            }
-        );
+        let infoLaunchPad;
+        const launchPadPromise = fetchLaunchPad(launch.launchpad).then(pad => {
+            const res = pad;
+            infoLaunchPad = res.name;
+        });
 
-        console.log(launchPadPromise);
+        console.log(infoLaunchPad);
 
+        // traitement de la date
         const date = transformDate(launch.date_unix);
 
         html = `
