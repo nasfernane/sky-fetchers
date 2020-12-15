@@ -109,3 +109,29 @@ body {
       font-size: 1.5rem;
       color: initial;
       text-align: justify; }
+
+.launchsSection {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  font-size: 2rem; }
+  .launchsSection article.launchs {
+    width: 50%; }
+    .launchsSection article.launchs .launch {
+      border: 1px solid white;
+      margin: 5rem;
+      border-radius: 1rem;
+      padding: 1rem; }
+      .launchsSection article.launchs .launch p {
+        color: white; }
+  .launchsSection aside {
+    width: 40%;
+    color: white; }
+    .launchsSection aside h2 {
+      text-decoration: underline;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      text-align: center; }
+    .launchsSection aside p {
+      font-size: 1.5rem;
+      text-align: justify; }

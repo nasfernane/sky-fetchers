@@ -1,15 +1,20 @@
 const historyDiv = document.querySelector('.history');
+const launchsDiv = document.querySelector('.launchs');
 
 // fonction pour fetch l'emplacement d'une station de lancement selon l'id entré en paramètre
-const fetchLaunchpad = function (launchpad) {
-    fetch(`https://api.spacexdata.com/v4/${launchpad}`)
+const fetchLaunchPad = function (pad) {
+    const launchPad = fetch(`https://api.spacexdata.com/v4/launchpads/${pad}`)
         .then(function (response) {
             return response.json();
         })
-        .then(json => console.log(json))
+        .then(json => {
+            return json;
+        })
         .catch(function (error) {
             console.log(error);
         });
+
+    return launchPad;
 };
 
 // fonction qui fetch les prochains décollages
@@ -18,10 +23,40 @@ const fetchUpcomingLaunchs = function (date) {
         .then(function (response) {
             return response.json();
         })
-        .then(json => console.log(json))
+        .then(json => {
+            console.log(json);
+            displayLaunchs(json);
+        })
         .catch(function (error) {
             console.log(error);
         });
+};
+
+const displayLaunchs = function (data) {
+    for (const launch of data) {
+        let launchPad;
+        const launchPadPromise = fetchLaunchPad(launch.launchpad).then(
+            function (value) {
+                return value;
+            }
+        );
+
+        console.log(launchPadPromise);
+
+        const date = transformDate(launch.date_unix);
+
+        html = `
+        <div class="launch">
+        <p>Date : ${date}</p>
+        <p>Flight number : ${launch.flight_number}</p>
+        <p>Name : ${launch.name}</p>
+        <p>${launch.details ? launch.details : 'No details yet'}</p>
+        <p>Location = </p>
+        </div>
+        `;
+
+        launchsDiv.insertAdjacentHTML('beforeend', html);
+    }
 };
 
 // fonction qui fetch les évènements marquants de l'histoire de SpaceX
@@ -36,20 +71,23 @@ const history = function () {
         });
 };
 
+// fonction qui crée les dates marquantes de SpaceX pour la section history, en fonction des données récupérées du fetch
 const displayHistory = function (data) {
-    console.log(data);
     for (const event of data) {
-        // transforme la date unix en date human friendly
-        const date = new Date(
-            event.event_date_unix * 1000
-        ).toLocaleDateString();
-        console.log(date);
+        // traitement de la date unix
+        const date = transformDate(event.event_date_unix);
         const html = `
         <p>${date} : ${event.details}</p>
         `;
 
+        // ajoute l'élément HTML à la suite
         historyDiv.insertAdjacentHTML('beforeend', html);
     }
+};
+
+// fonction pour transformer les dates unix en dates human friendly
+const transformDate = function (date) {
+    return new Date(date * 1000).toLocaleDateString();
 };
 
 // ECOUTEURS

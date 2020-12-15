@@ -1,0 +1,36 @@
+.launchsSection {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    font-size: 2rem;
+
+    article.launchs {
+        width: 50%;
+
+        .launch {
+            border: 1px solid white;
+            margin: 5rem;
+            border-radius: 1rem;
+            padding: 1rem;
+            p {
+                color: white;
+            }
+        }
+    }
+
+    aside {
+        width: 40%;
+        color: white;
+
+        h2 {
+            text-decoration: underline;
+            margin-top: 5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        p {
+            font-size: 1.5rem;
+            text-align: justify;
+        }
+    }
+}
