@@ -99,6 +99,7 @@ const insertHtml = function (currentObject) {
 
     // insère le HTML
     launchsDiv.insertAdjacentHTML('beforeend', html);
+    fetchMeteo(currentObject);
 };
 
 // 2eme OBJECTIF : Fetch puis ajout dans le HTML des évènements marquants de l'histoire de SpaceX.
@@ -129,6 +130,28 @@ const displayHistory = function (data) {
         historyDiv.insertAdjacentHTML('beforeend', html);
     }
 };
+
+// 3eme OBJECTIF : fetch la météo pour les pas de tir
+
+// const fetchMeteo = function (currentObject) {
+//     const test = document.querySelector('.location');
+//     console.log(test);
+//     fetch(
+//         `api.openweathermap.org/data/2.5/weather?q=London&appid=67173c519205d685b546a19f56219ebc`
+//     )
+//         .then(function (response) {
+//             console.log(response);
+//             return response.json();
+//         })
+//         .then(json => {
+//             console.log(json);
+//         })
+//         .catch(function (error) {
+//             console.log(error);
+//         });
+// };
+
+// 4ème OBJECTIF: implémenter une map
 
 // ECOUTEURS
 
