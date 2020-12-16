@@ -16,7 +16,8 @@ const transformDate = function (date) {
 // 1. Fetch de l'api SpaceX pour les prochains décollages
 // 2. Construction d'un objet JSON pour stocker les données qui nous intéressent.
 // 3. Fetch de l'api SpaceX pour les pas de tirs et ajout des données correspondantes
-// 4. Création puis insertion d'un bloc HTML reprenant les informations de chaque objet JSON.
+// 4. Fetch de l'astro-weather sur la localisation des pas de tirs et ajout à l'objet
+// 5. Création puis insertion d'un bloc HTML reprenant les informations de chaque objet JSON.
 
 // 1. fonction qui fetch les prochains lancements puis envoie le json à la fonction qui construit l'objet JSON
 const fetchUpcomingLaunchs = function (date) {
@@ -61,8 +62,7 @@ const fetchLaunchPad = function (currentObject) {
             return response.json();
         })
         .then(json => {
-            // envoie à la fonction insertHtml l'objet auquel on ajoute la latitude, la longitude, la location et la region
-            insertHtml(
+            fetchMeteo(
                 currentObject
                     .set('latitude', json.latitude)
                     .set('longitude', json.longitude)
@@ -75,8 +75,27 @@ const fetchLaunchPad = function (currentObject) {
         });
 };
 
-// 4. fonction qui récupère l'objet pour l'insérer en HTML
+// 4. fonction qui fetch l'astro-weather correspodnant à la latitude et longitude du pas de tir
+const fetchMeteo = function (currentObject) {
+    fetch(
+        `http://www.7timer.info/bin/astro.php?lon=${currentObject.get(
+            'longitude'
+        )}&lat=${currentObject.get(
+            'latitude'
+        )}&ac=0&lang=en&unit=metric&output=internal&tzshift=0`
+    )
+        .then(function (response) {
+            insertHtml(currentObject.set('astroWeather', response.url));
+        })
+
+        .catch(function (error) {
+            console.log(error);
+        });
+};
+
+// 5. fonction qui récupère l'objet pour l'insérer en HTML
 const insertHtml = function (currentObject) {
+    console.log(currentObject);
     // crée le HTML en récupérant les infos de l'objet
     const html = `
         <div class="launch">
@@ -87,19 +106,15 @@ const insertHtml = function (currentObject) {
                 ? currentObject.get('details')
                 : 'No details yet'
         }</p>
-        <p>Location: <span class="location" data-location="${currentObject.get(
+        <p>Location: <span class="location">${currentObject.get(
             'location'
-        )}" data-latitude="${currentObject.get(
-        'latitude'
-    )}" data-longitude="${currentObject.get('longitude')}">${currentObject.get(
-        'location'
-    )}, ${currentObject.get('region')}</span></p>
+        )}, ${currentObject.get('region')}</span></p>
+        <img src="${currentObject.get('astroWeather')}" alt="Astro Weather"/>
         </div>
         `;
 
     // insère le HTML
     launchsDiv.insertAdjacentHTML('beforeend', html);
-    fetchMeteo(currentObject);
 };
 
 // 2eme OBJECTIF : Fetch puis ajout dans le HTML des évènements marquants de l'histoire de SpaceX.
@@ -130,28 +145,6 @@ const displayHistory = function (data) {
         historyDiv.insertAdjacentHTML('beforeend', html);
     }
 };
-
-// 3eme OBJECTIF : fetch la météo pour les pas de tir
-
-// const fetchMeteo = function (currentObject) {
-//     const test = document.querySelector('.location');
-//     console.log(test);
-//     fetch(
-//         `api.openweathermap.org/data/2.5/weather?q=London&appid=67173c519205d685b546a19f56219ebc`
-//     )
-//         .then(function (response) {
-//             console.log(response);
-//             return response.json();
-//         })
-//         .then(json => {
-//             console.log(json);
-//         })
-//         .catch(function (error) {
-//             console.log(error);
-//         });
-// };
-
-// 4ème OBJECTIF: implémenter une map
 
 // ECOUTEURS
 
