@@ -17,11 +17,13 @@ const fetchLaunchPad = function () {
     return launchPad;
 };
 
+// fonction qui récupère fetch des launchpads pour implémenter dans les datasets des localisations
 const addLocation = function (launchpads) {
     // récupère les spans location qui contient les datasets
     const locations = document.querySelectorAll('.location');
 
     console.log(launchpads);
+    // pour chaque span
     for (const location of locations) {
         console.log(location.dataset.location);
         for (const pad of launchpads) {
