@@ -2,19 +2,36 @@ const historyDiv = document.querySelector('.history');
 const launchsDiv = document.querySelector('.launchs');
 
 // fonction pour fetch l'emplacement d'une station de lancement selon l'id entré en paramètre
-const fetchLaunchPad = function (padID) {
-    const launchPad = fetch(`https://api.spacexdata.com/v4/launchpads/${padID}`)
+const fetchLaunchPad = function () {
+    const launchPad = fetch(`https://api.spacexdata.com/v4/launchpads/`)
         .then(function (response) {
             return response.json();
         })
         .then(json => {
-            return json;
+            addLocation(json);
         })
         .catch(function (error) {
             console.log(error);
         });
 
     return launchPad;
+};
+
+const addLocation = function (launchpads) {
+    // récupère les spans location qui contient les datasets
+    const locations = document.querySelectorAll('.location');
+
+    console.log(launchpads);
+    for (const location of locations) {
+        console.log(location.dataset.location);
+        for (const pad of launchpads) {
+            if (pad.id === location.dataset.location) {
+                location.innerHTML = `${pad.full_name}, ${pad.region}`;
+                location.dataset.latitude = `${pad.latitude}`;
+                location.dataset.longitude = `${pad.longitude}`;
+            }
+        }
+    }
 };
 
 // fonction qui fetch les prochains décollages
@@ -35,14 +52,6 @@ const fetchUpcomingLaunchs = function (date) {
 const displayLaunchs = function (data) {
     // pour chaque vol
     for (const launch of data) {
-        let infoLaunchPad;
-        const launchPadPromise = fetchLaunchPad(launch.launchpad).then(pad => {
-            const res = pad;
-            infoLaunchPad = res.name;
-        });
-
-        console.log(infoLaunchPad);
-
         // traitement de la date
         const date = transformDate(launch.date_unix);
 
@@ -52,12 +61,17 @@ const displayLaunchs = function (data) {
         <p>Flight number : ${launch.flight_number}</p>
         <p>Name : ${launch.name}</p>
         <p>${launch.details ? launch.details : 'No details yet'}</p>
-        <p>Location = </p>
+        <p>Location = <span class="location" data-location="${
+            launch.launchpad
+        }" data-latitude="coucou" data-longitude=""></span></p>
         </div>
         `;
 
         launchsDiv.insertAdjacentHTML('beforeend', html);
     }
+
+    // on ajoute la localisation de la station de lancement
+    fetchLaunchPad();
 };
 
 // fonction qui fetch les évènements marquants de l'histoire de SpaceX

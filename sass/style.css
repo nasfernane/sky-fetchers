@@ -61,7 +61,7 @@ body {
   width: 90%;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   margin-top: 5rem; }
   .lastPictures .card {
     border-radius: 16px;
