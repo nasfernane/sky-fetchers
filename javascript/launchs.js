@@ -78,7 +78,7 @@ const fetchLaunchPad = function (currentObject) {
 // 4. fonction qui fetch l'astro-weather correspodnant à la latitude et longitude du pas de tir
 const fetchMeteo = function (currentObject) {
     fetch(
-        `http://www.7timer.info/bin/astro.php?lon=${currentObject.get(
+        `https://www.7timer.info/bin/astro.php?lon=${currentObject.get(
             'longitude'
         )}&lat=${currentObject.get(
             'latitude'
