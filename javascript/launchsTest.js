@@ -1,5 +1,7 @@
 // VARIABLES
 
+const { keyBy } = require('lodash');
+
 // première constante pour récupérer la div qui accueuillera les prochains lancements
 const launchsDiv = document.querySelector('.launchs');
 // deuxième constante pour récupérer la div qui accueillera les évènements marquants de SpaceX
@@ -48,6 +50,7 @@ const buildLaunchObject = function (data) {
             .set('id', `${data[i].launchpad}`);
 
         console.log(currentObject);
+        console.log(currentObject['id']);
         // on envoie cette Map dans la fonction du fetchLaunchPad
         // fetchLaunchPad(currentObject);
     }
