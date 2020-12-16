@@ -105,7 +105,7 @@ const insertHtml = function (currentObject) {
 // 1. Fetch l'API SpaceX pour récupérer les evènements
 // 2. Incorporation des évènements marquants dans le HTML
 
-// fonction qui fetch les events puis lance la fonction pour les afficher
+// 1. fonction qui fetch les events puis lance la fonction pour les afficher
 const history = function () {
     fetch(`https://api.spacexdata.com/v4/history`)
         .then(function (response) {
@@ -117,7 +117,7 @@ const history = function () {
         });
 };
 
-// fonction qui crée les dates marquantes de SpaceX pour la section history, en fonction des données récupérées du fetch
+// 2. fonction qui crée les dates marquantes de SpaceX pour la section history, en fonction des données récupérées du fetch
 const displayHistory = function (data) {
     for (const event of data) {
         // traitement de la date unix
