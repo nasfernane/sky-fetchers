@@ -12,6 +12,15 @@ const transformDate = function (date) {
     return new Date(date * 1000).toLocaleDateString();
 };
 
+// Factorisation du JS : fonction pour fetch, gérer les erreurs manuellement et retourner un JSON
+const getJSON = function (url, errorMsg = 'Something went wrong') {
+    return fetch(url).then(response => {
+        if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+        console.log(response);
+        return response.json();
+    });
+};
+
 // 1er OBJECTIF : Fetch puis créations en html des prochains lancements de fusée de SpaceX. Ajout des données de localisation des pas de tirs.
 // 1. Fetch de l'api SpaceX pour les prochains décollages
 // 2. Construction d'un objet JSON pour stocker les données qui nous intéressent.
@@ -21,10 +30,10 @@ const transformDate = function (date) {
 
 // 1. fonction qui fetch les prochains lancements puis envoie le json à la fonction qui construit l'objet JSON
 const fetchUpcomingLaunchs = function (date) {
-    fetch(`https://api.spacexdata.com/v4/launches/upcoming`)
-        .then(function (response) {
-            return response.json();
-        })
+    getJSON(
+        `https://api.spacexdata.com/v4/launches/upcoming`,
+        'No launchs found'
+    )
         .then(json => {
             buildLaunchObject(json);
         })
@@ -55,12 +64,9 @@ const buildLaunchObject = function (data) {
 
 // 3. fonction pour fetch la station de lancement correspondante et ajoute la latitude et la longitude à l'objet
 const fetchLaunchPad = function (currentObject) {
-    const launchPad = fetch(
+    getJSON(
         `https://api.spacexdata.com/v4/launchpads/${currentObject.get('id')}`
     )
-        .then(function (response) {
-            return response.json();
-        })
         .then(json => {
             fetchMeteo(
                 currentObject
@@ -78,7 +84,7 @@ const fetchLaunchPad = function (currentObject) {
 // 4. fonction qui fetch l'astro-weather correspodnant à la latitude et longitude du pas de tir
 const fetchMeteo = function (currentObject) {
     fetch(
-        `https://www.7timer.info/bin/astro.php?lon=${currentObject.get(
+        `//www.7timer.info/bin/astro.php?lon=${currentObject.get(
             'longitude'
         )}&lat=${currentObject.get(
             'latitude'

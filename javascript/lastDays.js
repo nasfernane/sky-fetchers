@@ -6,6 +6,18 @@ const today = new Date();
 // On enlève trois jours en millisecondes pour le calcul de la date deux jours avant le jour courant
 const startDate = new Date(today.valueOf() - 172800000);
 
+// FONCTIONS
+
+// Factorisation du JS : fonction pour fetch, gérer les erreurs manuellement et retourner un JSON
+const getJSON = function (url, errorMsg = 'Something went wrong') {
+    return fetch(url).then(response => {
+        if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+        console.log(response);
+        return response.json();
+    });
+};
+
+// fonction pour créer le HTML et afficher l'image
 const displayPicture = function (data) {
     console.log(data);
     for (const date of data) {
@@ -44,14 +56,11 @@ const displayPicture = function (data) {
 
 // fonction pour fetch les images/vidéos des trois derniers jours
 const displayLastDays = function () {
-    fetch(
+    getJSON(
         `https://api.nasa.gov/planetary/apod?api_key=CjYKFZ8urXvS40PpfMBsJwlJ8zQYBC05q0MkeDrp&start_date=${startDate.getFullYear()}-${
             startDate.getMonth() + 1
         }-${startDate.getDate()}`
     )
-        .then(function (response) {
-            return response.json();
-        })
         .then(json => displayPicture(json))
         .catch(function (error) {
             console.log(error);
